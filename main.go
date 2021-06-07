@@ -109,11 +109,9 @@ func main() {
 			if impPkg == nil || isIgnored(impPkg) {
 				continue
 			}
-			if isWizardCode(impPkg) {
 
-				impID := getID(imp)
-				fmt.Printf("%s -> %s;\n", pkgID, impID)
-			}
+			impID := getID(imp)
+			fmt.Printf("%s -> %s;\n", pkgID, impID)
 		}
 	}
 }
@@ -123,9 +121,6 @@ func processPackage(root string, pkgName string, level int, importedBy string, s
 		return nil
 	}
 	if ignored[pkgName] {
-		return nil
-	}
-	if !strings.HasPrefix(pkgName, "github.com/fmpwizard") {
 		return nil
 	}
 
@@ -206,15 +201,6 @@ func hasPrefixes(s string, prefixes []string) bool {
 		}
 	}
 	return false
-}
-
-func isWizardCode(pkg *build.Package) bool {
-	return hasPrefixes(normalizeVendor(pkg.ImportPath), []string{"github.com/fmpwizard"})
-
-	//if *ignoreVendor && isVendored(pkg.ImportPath) {
-	//	return true
-	// }
-	// return ignored[normalizeVendor(pkg.ImportPath)] || (pkg.Goroot && *ignoreStdlib) || hasPrefixes(normalizeVendor(pkg.ImportPath), ignoredPrefixes)
 }
 
 func isIgnored(pkg *build.Package) bool {
